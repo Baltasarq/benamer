@@ -1,0 +1,105 @@
+<html>
+<head><title>Benamer</title>
+<meta encoding="utf-8">
+<body>
+<h1 id="benamer">benamer</h1>
+
+<p>A bulk file renamer.</p>
+
+<h2 id="gettingstarted">Getting Started</h2>
+
+<p>In order to run this software, you need <strong>Python</strong>, it does not matter what version (provided it is updated enough), <strong>benamer</strong> will only run in <strong>Python 3</strong>.</p>
+
+<h2 id="installation">Installation</h2>
+
+<p>You can use pip in order to retrieve the package from PyPI:
+<code>sudo pip install benamer</code></p>
+
+<h2 id="usage">Usage</h2>
+
+<p><code>benamer.py [-h] [-d DIR] [-as RPREFX] [-ac START] [-rs RSUFX] [-ap RPREFX] [-rp RPREFX]
+                       [-fe FILTER_EXT] [-fp FILTER_PREFIX] [-fs FILTER_SUFFIX] [-st SUST] [-e EXT] [-rsp]
+                       [-s] [-p] [-jd] [-jf] [-u] [-l] [-v]
+</code></p>
+
+<p>Use `benamer -h` to get a complete list of available options. The availabe operations at the time of writing are:</p>
+
+
+<ul>optional arguments:
+  <li>-h, --help            show this help message and exit</li>
+  <li>-d DIR, --dir DIR     set the directory to work with</li>
+  <li>-as RPREFX, --add-suffix RPREFX
+                        add suffix to name</li>
+  <li>-ac START, --add-count START
+                        add count suffix to name</li>
+  <li>-rs RSUFX, --remove-suffix RSUFX
+                        remove suffix in name</li>
+  <li>-ap RPREFX, --add-prefix RPREFX
+                        add prefix to name</li>
+  <li>-rp RPREFX, --remove-prefix RPREFX
+                        remove prefix in name</li>
+  <li>-fe FILTER_EXT, --filter_by_ext FILTER_EXT
+                        filter by extension</li>
+  <li>-fp FILTER_PREFIX, --filter_by_prefix FILTER_PREFIX
+                        filter by prefix</li>
+  <li>-fs FILTER_SUFFIX, --filter_by_suffix FILTER_SUFFIX
+                        filter by suffix</li>
+  <li>-st SUST, --sust SUST
+                        substitute string</li>
+  <li>-e EXT, --ext EXT     substitute extension</li>
+  <li>-rsp, --replace-spaces
+                        replace spaces in files with underscores</li>
+  <li>-s, --sort            sort files before renaming</li>
+  <li>-p, --print           do nothing, just show renamings</li>
+  <li>-jd, --directories    rename only directories</li>
+  <li>-jf, --files          rename only files</li>
+  <li>-u, --upper           uppercase file names</li>
+  <li>-l, --lower           lowercase file names</li>
+  <li>-v, --verbose         describe what I am doing</li>
+
+<h2 id="examples">Examples</h2>
+
+<h3 id="print_adding_prefix">Adding a prefix</h3>
+
+<p>The following command will show the effects of adding a prefix to all files in the current directory. Nothing will be actually changed</p>
+
+<p><code>benamer -p -ap file_</code></p>
+<p><code>benamer --print --add-prefix file_</code></p>
+
+<h3 id="adding_prefix">Adding a prefix</h3>
+
+<p>The following command will add a prefix to all files in the current directory.</p>
+
+<p><code>benamer -ap file_</code></p>
+<p><code>benamer --add-prefix file_</code></p>
+
+<h3 id="adding_count">Adding a count suffix</h3>
+
+<p>The following command will add a suffix with a count to all files in the <i>sub</i> subdirectory.</p>
+
+<p><code>benamer -ac 1 -d sub</code></p>
+<p><code>benamer --add-count 1 --directory sub</code></p>
+
+<h3 id="sust">Replacing a part of the name</h3>
+
+<p>The following command will replace all "er" with "ar" in all files of the current directory.</p>
+
+<p><code>benamer -st er/ar</code></p>
+<p><code>benamer --sust er/ar</code></p>
+
+<h3 id="sust2">Replacing the whole file name</h3>
+
+<p>The following command will replace the whole file name with "f" in all files of the current directory.</p>
+
+<p><code>benamer -st /f</code></p>
+<p><code>benamer --sust /f</code></p>
+
+<h3 id="sust3">Remove a part of the file name</h3>
+
+<p>The following command will remove the "er" part of the file name in all files of the current directory.</p>
+
+<p><code>benamer -st er/</code></p>
+<p><code>benamer --sust er/</code></p>
+
+</body>
+</html>

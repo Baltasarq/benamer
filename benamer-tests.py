@@ -2,17 +2,17 @@
 
 
 import unittest
-import benamer
+from benamer import benamer_tool
 
 
 class TestFunctionalities(unittest.TestCase):
     def setUp(self):
         self.fns = [
             "benamer.py",
-            "img_123456.jpg",
-            "img_987654.jpg",
-            "doc_peticion.doc",
-            "notas.TXT"
+           # "img_123456.jpg",
+           # "img_987654.jpg",
+           # "doc_peticion.doc",
+           # "notas.TXT"
             ]
         self.args = {"verbose": False, "sort": False, "print": False}
     
@@ -26,7 +26,7 @@ class TestFunctionalities(unittest.TestCase):
             ]
         
         self.args["remove_prefix"] = "img_"
-        file_sust = benamer.do_subst(self.fns, self.args)
+        file_sust = benamer_tool.do_subst(self.fns, self.args)
         
         for i, nf_pair in enumerate(file_sust.items()):
             self.assertEqual(self.fns[i], nf_pair[0])
@@ -42,7 +42,7 @@ class TestFunctionalities(unittest.TestCase):
             ]
         
         self.args["remove_suffix"] = "er"
-        file_sust = benamer.do_subst(self.fns, self.args)
+        file_sust = benamer_tool.do_subst(self.fns, self.args)
         
         for i, nf_pair in enumerate(file_sust.items()):
             self.assertEqual(self.fns[i], nf_pair[0])
@@ -58,7 +58,7 @@ class TestFunctionalities(unittest.TestCase):
             ]
         
         self.args["add_suffix"] = "-origa"
-        file_sust = benamer.do_subst(self.fns, self.args)
+        file_sust = benamer_tool.do_subst(self.fns, self.args)
         
         for i, nf_pair in enumerate(file_sust.items()):
             self.assertEqual(self.fns[i], nf_pair[0])
@@ -74,7 +74,7 @@ class TestFunctionalities(unittest.TestCase):
             ]
         
         self.args["add_prefix"] = "aa-"
-        file_sust = benamer.do_subst(self.fns, self.args)
+        file_sust = benamer_tool.do_subst(self.fns, self.args)
         
         for i, nf_pair in enumerate(file_sust.items()):
             self.assertEqual(self.fns[i], nf_pair[0])
@@ -90,7 +90,7 @@ class TestFunctionalities(unittest.TestCase):
             ]
         
         self.args["sust"] = "m/k"
-        file_sust = benamer.do_subst(self.fns, self.args)
+        file_sust = benamer_tool.do_subst(self.fns, self.args)
         
         for i, nf_pair in enumerate(file_sust.items()):
             self.assertEqual(self.fns[i], nf_pair[0])
@@ -106,7 +106,7 @@ class TestFunctionalities(unittest.TestCase):
             ]
         
         self.args["sust"] = "/kk"
-        file_sust = benamer.do_subst(self.fns, self.args)
+        file_sust = benamer_tool.do_subst(self.fns, self.args)
         
         for i, nf_pair in enumerate(file_sust.items()):
             self.assertEqual(self.fns[i], nf_pair[0])
@@ -122,7 +122,7 @@ class TestFunctionalities(unittest.TestCase):
             ]
         
         self.args["sust"] = "img_/"
-        file_sust = benamer.do_subst(self.fns, self.args)
+        file_sust = benamer_tool.do_subst(self.fns, self.args)
         
         for i, nf_pair in enumerate(file_sust.items()):
             self.assertEqual(self.fns[i], nf_pair[0])
@@ -138,7 +138,7 @@ class TestFunctionalities(unittest.TestCase):
             ]
         
         self.args["add_count"] = 11
-        file_sust = benamer.do_subst(self.fns, self.args)
+        file_sust = benamer_tool.do_subst(self.fns, self.args)
         
         for i, nf_pair in enumerate(file_sust.items()):
             self.assertEqual(self.fns[i], nf_pair[0])
@@ -154,7 +154,7 @@ class TestFunctionalities(unittest.TestCase):
             ]
         
         self.args["lower"] = True
-        file_sust = benamer.do_subst(self.fns, self.args)
+        file_sust = benamer_tool.do_subst(self.fns, self.args)
         
         for i, nf_pair in enumerate(file_sust.items()):
             self.assertEqual(self.fns[i], nf_pair[0])
@@ -170,7 +170,7 @@ class TestFunctionalities(unittest.TestCase):
             ]
         
         self.args["upper"] = True
-        file_sust = benamer.do_subst(self.fns, self.args)
+        file_sust = benamer_tool.do_subst(self.fns, self.args)
         
         for i, nf_pair in enumerate(file_sust.items()):
             self.assertEqual(self.fns[i], nf_pair[0])
@@ -186,7 +186,7 @@ class TestFunctionalities(unittest.TestCase):
             ]
         
         self.args["ext"] = "bmp"
-        file_sust = benamer.do_subst(self.fns, self.args)
+        file_sust = benamer_tool.do_subst(self.fns, self.args)
         
         for i, nf_pair in enumerate(file_sust.items()):
             self.assertEqual(self.fns[i], nf_pair[0])
@@ -203,7 +203,41 @@ class TestFunctionalities(unittest.TestCase):
         
         self.args["filter_by_ext"] = "jpg"
         self.args["remove_prefix"] = "img_"
-        file_sust = benamer.do_subst(self.fns, self.args)
+        file_sust = benamer_tool.do_subst(self.fns, self.args)
+        
+        for i, nf_pair in enumerate(file_sust.items()):
+            self.assertEqual(self.fns[i], nf_pair[0])
+            self.assertEqual(file_sust_result[i], nf_pair[1])
+            
+    def test_filter_by_prefix(self):
+        file_sust_result = [
+            "benamer.py",
+            "123456.jpg",
+            "987654.jpg",
+            "doc_peticion.doc",
+            "notas.TXT"
+            ]
+        
+        self.args["filter_by_prefix"] = "img_"
+        self.args["remove_prefix"] = "img_"
+        file_sust = benamer_tool.do_subst(self.fns, self.args)
+        
+        for i, nf_pair in enumerate(file_sust.items()):
+            self.assertEqual(self.fns[i], nf_pair[0])
+            self.assertEqual(file_sust_result[i], nf_pair[1])
+            
+    def test_filter_by_suffix(self):
+        file_sust_result = [
+            "benamer.py",
+            "img_123456.jpg",
+            "img_987654.jpg",
+            "peticion.doc",
+            "notas.TXT"
+            ]
+        
+        self.args["filter_by_suffix"] = "on"
+        self.args["remove_prefix"] = "doc_"
+        file_sust = benamer_tool.do_subst(self.fns, self.args)
         
         for i, nf_pair in enumerate(file_sust.items()):
             self.assertEqual(self.fns[i], nf_pair[0])

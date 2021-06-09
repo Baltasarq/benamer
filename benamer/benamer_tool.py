@@ -8,7 +8,7 @@ import argparse
 name = "benamer"
 description = "A bulk file and directory renaming tool."
 __author__ = "Baltasar"
-__version__= "00.01 serial 20210526"
+__version__= "0.1 serial 20210526"
 HEADER = f"{name} v{__version__} (c) {__author__} - {description}\n"
 
 
@@ -83,6 +83,8 @@ def walk_files(start_num, file_sust, transf_fn_list):
 
 
 def rename_files(directory, file_sust):
+    toret = 0
+    
     for old_file_name in file_sust:
         old_file_path = os.path.join(directory, old_file_name)
         new_file_name = file_sust[old_file_name]
@@ -90,26 +92,42 @@ def rename_files(directory, file_sust):
         if old_file_name != new_file_name:
             new_file_path = os.path.join(directory, new_file_name)
             os.rename(old_file_path, new_file_path)
+            toret += 1
+            
+    return toret
             
 
 def do_subst(file_list, args):
     transf_fn_list = []
     
-    # Verbose
-    if args["verbose"]:
-        print(HEADER)
-        print("Directory:", directory)
-            
     if not file_list:
         if args["verbose"]:
             print("No files.")
     else:
-        # Sort and filter file list, if needed
+        # Sort, if needed
         if args["sort"]:
             if args["verbose"]:
                 print("Sorting file names...")
-
-        file_list.sort()
+                file_list.sort()
+        
+        # Filter file list
+        ext_to_filter = args.get("filter_by_ext")
+        if ext_to_filter:
+            if args["verbose"]:
+                print("Sorting file names...")
+                file_list = [f for f in file_list if decompose_name_ext(f)[1] == ext_to_filter]
+                
+        prefix_to_filter = args.get("filter_by_prefix")
+        if prefix_to_filter:
+            if args["verbose"]:
+                print("Sorting file names...")
+                file_list = [f for f in file_list if decompose_name_ext(f)[0].startswith(prefix_to_filter)]
+                
+        suffix_to_filter = args.get("filter_by_suffix")
+        if suffix_to_filter:
+            if args["verbose"]:
+                print("Sorting file names...")
+                file_list = [f for f in file_list if decompose_name_ext(f)[0].endswith(suffix_to_filter)]
 
         # Prepare substitutions
         file_sust = dict(zip(file_list, file_list))
@@ -193,7 +211,7 @@ def do_subst(file_list, args):
     return file_sust
 
 
-if __name__ == "__main__":  
+def main():
     parser = argparse.ArgumentParser(
         description=description)
     parser.add_argument("-d", "--dir", default=".", 
@@ -248,14 +266,25 @@ if __name__ == "__main__":
             file_list = [f.name for f in file_list if f.is_dir()]
         else:
             file_list = [f.name for f in file_list]
+            
+        # Verbose
+        if args["verbose"]:
+            print(HEADER)
+            print("Directory:", directory)
         
         # Do it
         file_sust = do_subst(file_list, args)
         if args.get("print"):
             print("\n" + str.join("\n", {f + "->" + file_sust[f] for f in file_sust}))
         else:
-            rename_files(directory, file_sust)
+            num_files_renamed = rename_files(directory, file_sust)
+            print("Files renamed:", num_files_renamed)
+
     except OSError as exc:
         print("OS complained:", str(exc))
     except Exception as exc:
         print("Unexpected error:", str(exc))
+
+
+if __name__ == "__main__":
+    main()
